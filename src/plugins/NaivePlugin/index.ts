@@ -1,16 +1,35 @@
 import {
-  NButton
+  NButton,
+  NCol,
+  NRow,
+  create,
+  NForm,
+  NFormItem,
+  NInput,
+  NSpace,
+  NA,
+  NCheckbox,
+  NModalProvider
 } from 'naive-ui'
 import type { App } from 'vue'
 
-const components = [
-  NButton
-]
+const naive = create({
+  components: [
+    NButton,
+    NRow,
+    NCol,
+    NForm,
+    NFormItem,
+    NInput,
+    NSpace,
+    NA,
+    NCheckbox,
+    NModalProvider
+  ]
+})
 
 export const install = (app: App) => {
-  components.forEach(component => {
-    app.component(component.name!, component)
-  })
+  app.use(naive)
 }
 
 export default {

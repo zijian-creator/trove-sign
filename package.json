@@ -12,13 +12,15 @@
     "pinia": "^3.0.3",
     "pinia-plugin-persistedstate": "^4.4.1",
     "vue": "^3.5.17",
-    "vue-router": "4"
+    "vue-router": "4",
+    "zipson": "^0.2.12"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.0",
     "@vitejs/plugin-vue-jsx": "^5.0.1",
     "@vue/tsconfig": "^0.7.0",
     "naive-ui": "^2.42.0",
+    "sass-embedded": "^1.89.2",
     "typescript": "~5.8.3",
     "vite": "^7.0.4",
     "vue-i18n": "^11.1.11",

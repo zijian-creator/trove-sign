@@ -1,3 +1,6 @@
+import './assets/styles/normalize.scss'
+import './assets/styles/global.scss'
+
 import LocalePlugin from './plugins/LocalePlugin'
 import NaivePlugin from './plugins/NaivePlugin'
 import StorePlugin from './plugins/StorePlugin'
@@ -10,8 +13,19 @@ import { RouterView } from 'vue-router'
 const app = createApp({
   render: () => {
     return (
-      <NConfigProvider>
-        <RouterView />
+      <NConfigProvider
+        abstract
+        themeOverrides={{
+          common: {
+            primaryColor: '#FF8500',
+            primaryColorHover: '#FF6600',
+            primaryColorPressed: '#FF4D00',
+          }
+        }}
+      >
+        <n-modal-provider>
+          <RouterView />
+        </n-modal-provider>
       </NConfigProvider>
     )
   }

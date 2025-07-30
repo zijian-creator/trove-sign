@@ -20,7 +20,7 @@ const router = createRouter({
     },
     {
       path: '/login',
-      component: () => import('@/views/Login/index.vue'),
+      component: () => import('@/views/Login'),
       meta: {
         title: i18n.global.t('login.title')
       }
@@ -36,10 +36,9 @@ router.beforeEach((to) => {
   if (to.meta.requiresAuth) {
     // 检查用户是否已登录
     const isAuthenticated = authStore[TOKEN_NAME]
-    console.log(isAuthenticated);
     if (!isAuthenticated) {
       // 如果用户未登录，重定向到登录页面
-      return { path: '/login', query: { redirect: to.fullPath } }
+      return { path: '/login', query: { redirect: encodeURIComponent(to.fullPath) } }
     }
   }
 })

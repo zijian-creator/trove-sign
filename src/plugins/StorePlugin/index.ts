@@ -1,6 +1,7 @@
 import { createPinia } from 'pinia'
 import { createPersistedState } from 'pinia-plugin-persistedstate'
 import type { App } from 'vue'
+import { parse, stringify } from 'zipson'
 
 const piniaPluginPersistedstate = createPersistedState({
   key: (id) => `trove_sign_${id}`,
@@ -11,6 +12,10 @@ const piniaPluginPersistedstate = createPersistedState({
     setItem: (key, value) => {
       localStorage.setItem(key, value)
     }
+  },
+  serializer: {
+    deserialize: parse,
+    serialize: stringify
   }
 })
 
