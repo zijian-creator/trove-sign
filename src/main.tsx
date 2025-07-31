@@ -18,8 +18,8 @@ const app = createApp({
         themeOverrides={{
           common: {
             primaryColor: '#FF8500',
-            primaryColorHover: '#FF6600',
-            primaryColorPressed: '#FF4D00',
+            primaryColorHover: '#F27A00',
+            primaryColorPressed: '#F27A00',
           }
         }}
       >

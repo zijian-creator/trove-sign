@@ -12,9 +12,41 @@
       width: 100%;
     }
 
+    .forget-box {
+      margin-bottom: 24px;
+    }
+
+    .forget {
+      color: #6F7686;
+    }
+
     :global {
       .n-form {
         width: 396px;
+      }
+      .n-tabs {
+        width: 396px;
+        min-height: 422px;
+
+        .n-tabs-tab--active .n-tabs-tab__label {
+          font-size: 24px;
+          font-weight: 600;
+        }
+
+        .n-tabs-tab__label {
+          font-size: 16px;
+        }
+
+        .n-tabs-pane-wrapper {
+          margin-top: 24px;
+        }
+
+        .n-tabs-tab {
+          width: 120px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
       }
     }
   }

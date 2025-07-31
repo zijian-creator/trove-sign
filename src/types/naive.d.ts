@@ -8,7 +8,9 @@ import type {
   ButtonProps,
   AProps,
   CheckboxProps,
-  ModalProviderProps
+  ModalProviderProps,
+  TabsProps,
+  TabPaneProps
 } from "naive-ui";
 import type { HTMLAttributes, PublicProps } from "vue";
 
@@ -25,6 +27,8 @@ declare module 'vue/jsx-runtime' {
       'n-a': HTMLAttributes & PublicProps & AProps
       'n-checkbox': HTMLAttributes & PublicProps & CheckboxProps
       'n-modal-provider': HTMLAttributes & PublicProps & ModalProviderProps
+      'n-tabs': HTMLAttributes & PublicProps & TabsProps
+      'n-tab-pane': HTMLAttributes & PublicProps & TabPaneProps
     }
   }
 }

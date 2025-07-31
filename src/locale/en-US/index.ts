@@ -15,4 +15,8 @@ export default {
   'login.form.email.rule.format': 'Please input correct email format',
   'login.form.password.rule.required': 'Please input password',
   'login.form.password.rule.minLength': 'Password length must be at least {min} characters',
+  'login.noAccount': 'Don\'t have an account? {link}',
+  'login.toRegister': 'Register',
+  'login.tab.account': 'Account Login',
+  'login.tab.phone': 'QR Login',
 }

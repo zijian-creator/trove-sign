@@ -9,7 +9,9 @@ import {
   NSpace,
   NA,
   NCheckbox,
-  NModalProvider
+  NModalProvider,
+  NTabs,
+  NTabPane
 } from 'naive-ui'
 import type { App } from 'vue'
 
@@ -24,7 +26,9 @@ const naive = create({
     NSpace,
     NA,
     NCheckbox,
-    NModalProvider
+    NModalProvider,
+    NTabs,
+    NTabPane
   ]
 })
 
