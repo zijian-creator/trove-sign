@@ -1,51 +1,44 @@
 #login {
   height: 100%;
+  display: flex;
+  flex-flow: row nowrap;
   background-color: #FAFBFC;
 
+  > div {
+    flex: 1;
+  }
+
   .login-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: relative;
     background-color: #fff;
+  }
 
-    .password-box {
-      width: 100%;
-    }
-
-    .forget-box {
-      margin-bottom: 24px;
-    }
-
-    .forget {
-      color: #6F7686;
-    }
+  .login-container {
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 476px;
+    transform: translate(-50%, -50%);
 
     :global {
-      .n-form {
-        width: 396px;
+      .p-form {
+        display: flex;
+        row-gap: 24px;
+        flex-flow: column nowrap;
       }
-      .n-tabs {
-        width: 396px;
-        min-height: 422px;
+    }
 
-        .n-tabs-tab--active .n-tabs-tab__label {
-          font-size: 24px;
-          font-weight: 600;
-        }
+    .form-item label {
+      display: flex;
+      row-gap: 8px;
+      flex-flow: column nowrap;
+      color: #858A99;
 
-        .n-tabs-tab__label {
+      :global {
+        .p-inputtext::placeholder {
           font-size: 16px;
-        }
-
-        .n-tabs-pane-wrapper {
-          margin-top: 24px;
-        }
-
-        .n-tabs-tab {
-          width: 120px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          color: #DCDDE1;
         }
       }
     }

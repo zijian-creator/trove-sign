@@ -11,6 +11,9 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+
     "paths": {
       "@/*": ["./src/*"]
     }

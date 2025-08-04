@@ -1,26 +1,26 @@
-import styles from './index.module.scss'
-
-import { defineComponent, ref, shallowReactive, shallowRef, toRaw } from "vue"
-import { useModal, type FormInst } from 'naive-ui'
+import { defineComponent, shallowReactive, shallowRef, useSlots } from "vue"
 import { useRoute, useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
+import { zodResolver } from '@primevue/forms/resolvers/zod'
+
+import style from './index.module.scss'
+import type { FormSlots } from "@primevue/forms/form"
 
 
+export const componentName = 'login'
 export default defineComponent({
-  name: 'Login',
+  name: componentName,
   setup: () => {
-    const { t } = useI18n()
-    const modal = useModal()
     const route = useRoute()
     const router = useRouter()
+    const slots = useSlots()
     const loading = shallowRef(false)
-    const formRef = ref<FormInst | null>(null)
     const user = shallowReactive({
       email: '',
       password: '',
       protocol: false
     })
 
+    // 登录成功后的路由重定向
     const redirectRoute = () => {
       const redirect = route.query.redirect as string
       if (redirect) {
@@ -31,159 +31,82 @@ export default defineComponent({
       router.replace('/')
     }
 
-    const handleSubmit = async (event: Event) => {
-      const form = toRaw(formRef.value)
-      if (form) {
-        const valid = await form.validate()
-        if (!valid) {
-          return
-        }
-        // 如果没有勾选协议，则提示勾选
-        if (!user.protocol) {
-          modal.create({
-            type: 'warning',
-            title: t('login.modal.tooltip'),
-            content: t('login.modal.content'),
-            positiveText: t('login.modal.positiveText'),
-            negativeText: t('login.modal.negativeText'),
-            preset: 'confirm',
-            onPositiveClick() {
-              user.protocol = true
-            }
-          })
-          return
-        }
-        // 调用登录接口
-        loading.value = true
-      }
+    // 提交登录
+    const submit = () => {
+
     }
 
     return {
       user,
-      loading,
-      formRef,
-      handleSubmit
+      submit,
+      loading
     }
   },
   render() {
     return (
-      <n-row id={styles.login}>
-        <n-col span={12}>
-
-        </n-col>
-        <n-col
-          span={12}
-          class={styles['login-box']}
-        >
-          <n-tabs
-            animated
-            barWidth={72}
-          >
-            <n-tab-pane
-              name="account"
-              tab={this.$t('login.tab.account')}
+      <div id={style[componentName]}>
+        <div class={style['brand-information']}></div>
+        <div class={style['login-box']}>
+          <div class={style['login-container']}>
+            <prime-form
+              initialValues={this.user}
+              onSubmit={this.submit}
+              resolver={zodResolver}
+              validateOnBlur
+              validateOnMount={['email']}
             >
-              <n-space
-                vertical
-                size={24}
-                align="center"
-              >
-                <n-form
-                  ref="formRef"
-                  model={this.user}
-                  requireMarkPlacement="left"
-                  onSubmit={this.handleSubmit}
-                >
-                  <n-form-item
-                    path="email"
-                    label={this.$t('login.form.email')}
-                    rule={[
-                      {
-                        required: true,
-                        message: this.$t('login.form.email.rule.required')
-                      },
-                      {
-                        type: 'email',
-                        message: this.$t('login.form.email.rule.format')
-                      }
-                    ]}
-                  >
-                    <n-input
-                      value={this.user.email}
-                      onUpdate:value={val => this.user.email = val}
-                      placeholder={this.$t('login.form.email.placeholder')}
-                    />
-                  </n-form-item>
-                  <n-form-item
-                    path="password"
-                    label={this.$t('login.form.password')}
-                    rule={[
-                      {
-                        required: true,
-                        message: this.$t('login.form.password.rule.required')
-                      },
-                      {
-                        min: 6,
-                        message: this.$t('login.form.password.rule.minLength', { min: 6 })
-                      }
-                    ]}
-                  >
-                    <n-input
-                      type="password"
-                      value={this.user.password}
-                      showPasswordOn="mousedown"
-                      onUpdate:value={val => this.user.password = val}
-                      placeholder={this.$t('login.form.password.placeholder')}
-                    />
-                  </n-form-item>
-                  <n-space
-                    justify="end"
-                    class={styles['forget-box']}
-                  >
-                    <n-a class={styles['forget']}>{this.$t('login.form.password.forget')}</n-a>
-                  </n-space>
-                  <n-form-item
-                    path="protocol"
-                    showLabel={false}
-                    showFeedback={false}
-                  >
-                    <n-space
-                      vertical
-                      size={20}
-                      style={{ width: '100%' }}
-                    >
-                      <n-checkbox
-                        checked={this.user.protocol}
-                        onUpdate:checked={val => this.user.protocol = val}
-                      >
-                        {this.$t('login.form.protocol')}
-                      </n-checkbox>
-                      <n-button
-                        block
-                        type="primary"
-                        loading={this.loading}
-                        onClick={this.handleSubmit}
-                      >
-                        {this.$t('login.form.submit')}
-                      </n-button>
-                    </n-space>
-                  </n-form-item>
-                </n-form>
-                <div>
-                  {this.$t('login.noAccount')}
-                  <n-a>{this.$t('login.toRegister')}</n-a>
-                </div>
-              </n-space>
-            </n-tab-pane>
-            <n-tab-pane
-              name="qrcode"
-              tab={this.$t('login.tab.qrcode')}
-            >
-
-            </n-tab-pane>
-          </n-tabs>
-        </n-col>
-      </n-row>
+              {{
+                default: (opt: Parameters<FormSlots['default']>[0]) => (
+                  <>
+                    <div class={style['form-item']}>
+                      <label for="email">
+                        {this.$t('login.form.email')}
+                        <prime-input-text
+                          placeholder={this.$t('login.form.email.placeholder')}
+                          name="email"
+                          type="text"
+                          id="email"
+                          fluid
+                        />
+                        {
+                          opt.email?.invalid && (
+                            <prime-message
+                              variant="simple"
+                              severity="error"
+                              size="small"
+                            >
+                              {this.$t('login.form.email.rule.required')}
+                            </prime-message>
+                          )
+                        }
+                      </label>
+                    </div>
+                    <div class={style['form-item']}>
+                      <label for="password">
+                        {this.$t('login.form.password')}
+                        <prime-password
+                          placeholder={this.$t('login.form.password.placeholder')}
+                          name="password"
+                          feedback={false}
+                          id="password"
+                          fluid
+                        />
+                        <prime-message
+                          variant="simple"
+                          severity="error"
+                          size="small"
+                        >
+                          {this.$t('login.form.password.rule.required')}
+                        </prime-message>
+                      </label>
+                    </div>
+                  </>
+                )
+              }}
+            </prime-form>
+          </div>
+        </div>
+      </div>
     )
   }
 })
