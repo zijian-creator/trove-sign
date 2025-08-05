@@ -1,19 +1,27 @@
-import { defineComponent, shallowReactive, shallowRef, useSlots } from "vue"
-import { useRoute, useRouter } from 'vue-router'
+import { defineComponent, shallowReactive, shallowRef } from "vue"
 import { zodResolver } from '@primevue/forms/resolvers/zod'
+import { useRoute, useRouter } from 'vue-router'
+import { z } from 'zod'
 
 import style from './index.module.scss'
-import type { FormSlots } from "@primevue/forms/form"
+import type { FormSlots, FormSubmitEvent } from "@primevue/forms/form"
+import { useI18n } from "vue-i18n"
 
 
 export const componentName = 'login'
 export default defineComponent({
   name: componentName,
   setup: () => {
+    const { t } = useI18n()
     const route = useRoute()
     const router = useRouter()
-    const slots = useSlots()
     const loading = shallowRef(false)
+    const resolver = zodResolver(
+      z.object({
+        email: z.string().nonempty(t('login.form.email.rules.required')).and(z.email(t('login.form.email.rules.format'))),
+        password: z.string().nonempty(t('login.form.password.rules.required')).and(z.string().min(6).regex(/[a-z]/).regex(/[A-Z]/).regex(/[0-9]/).regex(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/))
+      })
+    )
     const user = shallowReactive({
       email: '',
       password: '',
@@ -32,14 +40,15 @@ export default defineComponent({
     }
 
     // 提交登录
-    const submit = () => {
-
+    const submit = (payload: FormSubmitEvent) => {
+      console.log(payload.values);
     }
 
     return {
       user,
       submit,
-      loading
+      loading,
+      resolver
     }
   },
   render() {
@@ -48,19 +57,18 @@ export default defineComponent({
         <div class={style['brand-information']}></div>
         <div class={style['login-box']}>
           <div class={style['login-container']}>
-            <prime-form
+            <PrimeForm
               initialValues={this.user}
               onSubmit={this.submit}
-              resolver={zodResolver}
+              resolver={this.resolver}
               validateOnBlur
-              validateOnMount={['email']}
             >
               {{
                 default: (opt: Parameters<FormSlots['default']>[0]) => (
                   <>
-                    <div class={style['form-item']}>
+                    <prime-form-field class={style['form-item']}>
                       <label for="email">
-                        {this.$t('login.form.email')}
+                        {this.$t('login.form.email.label')}
                         <prime-input-text
                           placeholder={this.$t('login.form.email.placeholder')}
                           name="email"
@@ -75,31 +83,43 @@ export default defineComponent({
                               severity="error"
                               size="small"
                             >
-                              {this.$t('login.form.email.rule.required')}
+                              {opt.email?.error?.message}
                             </prime-message>
                           )
                         }
                       </label>
-                    </div>
-                    <div class={style['form-item']}>
+                    </prime-form-field>
+                    <prime-form-field class={style['form-item']}>
                       <label for="password">
-                        {this.$t('login.form.password')}
+                        {this.$t('login.form.password.label')}
                         <prime-password
                           placeholder={this.$t('login.form.password.placeholder')}
                           name="password"
                           feedback={false}
                           id="password"
+                          toggleMask
                           fluid
                         />
-                        <prime-message
-                          variant="simple"
-                          severity="error"
-                          size="small"
-                        >
-                          {this.$t('login.form.password.rule.required')}
-                        </prime-message>
+                        {
+                          opt.password?.invalid && (
+                            <prime-message
+                              variant="simple"
+                              severity="error"
+                              size="small"
+                            >
+                              {opt.password?.error?.message}
+                            </prime-message>
+                          )
+                        }
                       </label>
-                    </div>
+                    </prime-form-field>
+                    <prime-form-field>
+                      <prime-button
+                        fluid
+                        type="submit"
+                        label={this.$t('login.form.submit')}
+                      />
+                    </prime-form-field>
                   </>
                 )
               }}

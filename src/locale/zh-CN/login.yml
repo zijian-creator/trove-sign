@@ -1,0 +1,28 @@
+login:
+  title: 登录
+  form:
+    email:
+      label: 邮箱
+      placeholder: zhangsan@tsign.com
+      rules:
+        required: 邮箱不能为空
+        format: 请输入正确的邮箱格式
+    password:
+      label: 密码
+      placeholder: Ts+123
+      rules:
+        required: 密码不能为空
+        minLength: 密码长度不能小于{min}位
+    submit: 登录
+  noAccount: 还没有账号？{link}
+  toRegister: 前往创建
+  tab:
+    account: 账号登录
+    qrcode: 二维码登录
+  modal:
+    tooltip: 提示
+    content: 继续登录则表示您同意{userProtocol}和{privacyPolicy}
+    positiveText: 同意
+    negativeText: 不同意
+  userProtocol: 《用户协议》
+  privacyPolicy: 《隐私政策》

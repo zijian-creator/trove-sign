@@ -1,0 +1,29 @@
+login:
+  title: Login
+  form:
+    email:
+      label: Email
+      placeholder: zhangsan@tsign.com
+      rules:
+        required: Email is required
+        format: Please enter a valid email format
+    password:
+      label: Password
+      placeholder: Ts+123
+      rules:
+        required: Password is required
+        minLength: Password must be at least {min} characters long
+    submit: Login
+  noAccount: Don't have an account? {link}
+  toRegister: Create one
+  tab:
+    account: Account Login
+    qrcode: QR Code Login
+  modal:
+    tooltip: Notice
+    content: Continuing to login means you agree to the {userProtocol} and {privacyPolicy}
+    positiveText: Agree
+    negativeText: Disagree
+  userProtocol: "User Agreement"
+  privacyPolicy: "Privacy Policy"
+  
